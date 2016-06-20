@@ -1,4 +1,4 @@
-import {isObject} from 'stc-helper';
+import {isObject, isError} from 'stc-helper';
 import colors from 'colors';
 
 colors.enabled = true;
@@ -11,81 +11,48 @@ export default class StcLog {
    * constructor
    */
   constructor(){
-    this.errors = [];
-    this.warnings = [];
-    this.notices = [];
-  }
-  /**
-   * has error log
-   */
-  hasError(){
-    return this.errors.length > 0;
+    this.hasError = false;
+    this.hasLog = false;
   }
   /**
    * add error log
    */
-  error(message, file, line, column){
-    this.errors.push({
-      message,
-      line,
-      column,
-      file
-    });
-    return this;
+  error(message){
+    this.hasError = true;
+    this.display(message, 'error');
   }
   /**
    * add warning log
    */
-  warning(message, file, line, column){
-    this.warnings.push({
-      message,
-      line,
-      column,
-      file
-    });
-    return this;
+  warning(message){
+    this.hasLog = true;
+    this.display(message, 'warning');
   }
   /**
    * add notice log
    */
-  notice(message, file, line, column){
-    this.notices.push({
-      message,
-      line,
-      column,
-      file
-    });
-    return this;
-  }
-  /**
-   * display log
-   */
-  display(opts = {
-    error: true,
-    warning: true,
-    notice: true
-  }){
-    if(opts.error){
-      this.errors.forEach(item => this.displayLog(item, 'error'));
-    }
-    if(opts.warning){
-      this.warnings.forEach(item => this.displayLog(item, 'warning'));
-    }
-    if(opts.notice){
-      this.notices.forEach(item => this.displayLog(item, 'notice'));
-    }
+  notice(message){
+    this.hasLog = true;
+    this.display(message, 'notice');
   }
   /**
    * display item log
    */
-  displayLog(message, type){
-    if(isObject(message)){
+  display(message, type){
+    if(message && 'message' in message){
+      let str = '';
+      if(message.className){
+        str = `${message.className}: ${message.message};`
+      }else{
+        str = message.message;
+      }
       if(message.file){
-        message += ` in file \`${message.file}\``;
+        str += ` in file \`${message.file}\``;
       }
       if('line' in message){
-        message += ` on line: ${message.line}, column: ${message.column}`;
+        str += ` on line: ${message.line}, column: ${message.column}`;
       }
+      message = str;
     }
     switch(type){
       case 'error':
