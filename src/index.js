@@ -49,8 +49,8 @@ export default class StcLog {
       if(message.file){
         str += ` in file \`${message.file}\``;
       }
-      if('line' in message){
-        str += ` on line: ${message.line}, column: ${message.column}`;
+      if(message.line !== undefined){
+        str += ` on line: ${message.line + 1}, column: ${message.column + 1}`;
       }
       message = str;
     }
