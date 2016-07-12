@@ -1,5 +1,6 @@
 # stc-log
 
+[![NPM version](https://img.shields.io/npm/v/stc-log.svg?style=flat-square)](http://badge.fury.io/js/stc-log)
 [![Build Status](https://travis-ci.org/stcjs/stc-log.svg?branch=master)](https://travis-ci.org/stcjs/stc-log)
 
 Logger for stc
