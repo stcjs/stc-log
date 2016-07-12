@@ -1,4 +1,4 @@
-import StcLog from '../lib/index.js';
+import StcLog from '../src/index.js';
 import test from 'ava';
 
 test('init, hasError & hasLog', t => {
