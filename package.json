@@ -7,20 +7,29 @@
     "email": "welefen@gmail.com"
   },
   "scripts": {
-    "test": "ava test/",
-    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -t 50000 --recursive  -R spec test/",
+    "test": "npm run eslint && nyc ava test/",
     "compile": "babel --presets es2015-loose,stage-1 --plugins transform-runtime src/ --out-dir lib/ --source-maps",
-    "watch-compile": "npm run compile -- --watch",
-    "watch": "npm run watch-compile",
+    "watch": "npm run compile -- --watch",
     "prepublish": "npm run compile",
-    "eslint": "eslint src/"
+    "eslint": "eslint src/",
+    "report": "nyc report --reporter=html"
   },
-  "contributors": [
-    {
-      "name": "welefen",
-      "email": "welefen@gmail.com"
+  "babel": {
+    "presets": ["es2015-loose", "stage-1"],
+    "plugins": ["transform-runtime"],
+    "env": {
+      "development": {
+        "sourceMaps": "inline"
+      }
     }
-  ],
+  },
+  "ava": {
+    "require": ["babel-core/register"]
+  },
+  "contributors": [{
+    "name": "welefen",
+    "email": "welefen@gmail.com"
+  }],
   "main": "lib/index.js",
   "dependencies": {
     "babel-runtime": "6.x.x",
@@ -37,7 +46,7 @@
     "babel-preset-es2015-loose": "7.0.0",
     "babel-preset-stage-1": "6.x.x",
     "eslint": "2.8.0",
-    "istanbul": "0.4.0"
+    "nyc": "^7.0.0"
   },
   "keywords": [],
   "repository": {

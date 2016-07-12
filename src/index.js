@@ -25,21 +25,20 @@ export default class StcLog {
    * add warning log
    */
   warning(message){
-    this.hasLog = true;
     this.display(message, 'warning');
   }
   /**
    * add notice log
    */
   notice(message){
-    this.hasLog = true;
     this.display(message, 'notice');
   }
   /**
    * display item log
    */
   display(message, type){
-    if(message && 'message' in message){
+    this.hasLog = true;
+    if(message && isObject(message) && 'message' in message){
       let str = '';
       if(message.className){
         str = `${message.className}: ${message.message};`
