@@ -1,5 +1,5 @@
 import {isObject, isError} from 'stc-helper';
-import colors from 'colors';
+import colors from 'colors/safe';
 
 colors.enabled = true;
 
@@ -38,6 +38,11 @@ export default class StcLog {
    */
   display(message, type){
     this.hasLog = true;
+    let isFn = false;
+    if(typeof message === 'function'){
+      isFn = true;
+      message = message(colors);
+    }
     if(message && isObject(message) && 'message' in message){
       let str = '';
       if(message.className){
@@ -61,7 +66,9 @@ export default class StcLog {
         message = colors.yellow(message);
         break;
       default:
-        message = colors.green(message);
+        if(!isFn){
+          message = colors.green(message);
+        }
     }
     console.log(message);
   }
