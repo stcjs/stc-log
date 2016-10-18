@@ -59,7 +59,7 @@ export default class StcLog {
       message = str;
     }
 
-    if(window in global) {
+    if(typeof window !== 'undefined') {
       switch(type){
         case 'error':
           message = console.error(message);
