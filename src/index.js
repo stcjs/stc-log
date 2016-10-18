@@ -58,6 +58,23 @@ export default class StcLog {
       }
       message = str;
     }
+
+    if(window in global) {
+      switch(type){
+        case 'error':
+          message = console.error(message);
+          break;
+        case 'warning':
+          message = console.warn(message);
+          break;
+        default:
+          if(!isFn){
+            message = console.log(message);
+          }
+      }
+      return
+    }
+
     switch(type){
       case 'error':
         message = colors.red(message);
